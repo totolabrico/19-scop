@@ -12,54 +12,31 @@
 
 #include "../include/scop.h"
 
-static float rotate_x(std::array<float, 3> v, std::array<float, 3> a)
+std::array<std::array<float, 3>, 3> rotation_matrix(float ax, float ay, float az)
 {
-	float res;
-	float c;
+	float cx = cos(ax), sx = sin(ax);
+	float cy = cos(ay), sy = sin(ay);
+	float cz = cos(az), sz = sin(az);
 
-	c = cos(a[0]) * cos(a[1]);
-	res = c * v[0];
-	c = cos(a[0]) * sin(a[1]) * sin(a[2]) - sin(a[0]) * cos(a[2]);
-	res += c * v[1];
-	c = cos(a[0]) * sin(a[1]) * cos(a[2]) + sin(a[0]) * sin(a[2]);
-	res += c * v[2];
-	return (res);
+	static std::array<std::array<float, 3>, 3> res;
+
+	res[0] = {cy * cz, cz * sx * sy - cx * sz, cx * cz * sy + sx * sz};
+	res[1] = {cy * sz, cx * cz + sx * sy * sz, -cz * sx + cx * sy * sz};
+	res[2] = {-sy, cy * sx, cx * cy};
+	return res;
 }
 
-static float rotate_y(std::array<float, 3> v, std::array<float, 3> a)
+static float dot(std::array<float, 3> v, std::array<float, 3> a)
 {
-	float res;
-	float c;
-
-	c = sin(a[0]) * cos(a[1]);
-	res = c * v[0];
-	c = sin(a[0]) * sin(a[1]) * sin(a[2]) + cos(a[0]) * cos(a[2]);
-	res += c * v[1];
-	c = sin(a[0]) * sin(a[1]) * cos(a[2]) - cos(a[0]) * sin(a[2]);
-	res += c * v[2];
-	return (res);
+	return v[0] * a[0] + v[1] * a[1] + v[2] * a[2];
 }
 
-static float rotate_z(std::array<float, 3> v, std::array<float, 3> a)
-{
-	float res;
-	float c;
-
-	c = -sin(a[1]);
-	res = c * v[0];
-	c = cos(a[1]) * sin(a[2]);
-	res += c * v[1];
-	c = cos(a[1]) * cos(a[2]);
-	res += c * v[2];
-	return (res);
-}
-
-void rotate(std::array<float, 3> &v, std::array<float, 3> const &a)
+void rotate(std::array<float, 3> &v, std::array<std::array<float, 3>, 3> const &m)
 {
 	std::array<float, 3> res;
 
-	res[0] = rotate_x(v, a);
-	res[1] = rotate_y(v, a);
-	res[2] = rotate_z(v, a);
+	res[0] = dot(v, m[0]);
+	res[1] = dot(v, m[1]);
+	res[2] = dot(v, m[2]);
 	v = res;
 }

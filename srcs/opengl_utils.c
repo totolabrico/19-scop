@@ -1,6 +1,6 @@
 #include "../include/scop.h"
 
-GLFWwindow *create_openGL_window(int width, int height)
+GLFWwindow *create_openGL_window(std::string const &name, int width, int height)
 {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -11,7 +11,7 @@ GLFWwindow *create_openGL_window(int width, int height)
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
-    GLFWwindow *window = glfwCreateWindow(width, height, "LearnOpenGL", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(width, height, name.c_str(), NULL, NULL);
     if (window == NULL)
     {
         std::cout << "Failed to create GLFW window" << std::endl;
