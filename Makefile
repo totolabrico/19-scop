@@ -12,7 +12,7 @@
 
 NAME	=	scop
 
-SRCS	=	*.c *.cpp
+SRCS	=	*.cpp
 
 SRCS_ 	=	$(addprefix srcs/, $(SRCS))
 

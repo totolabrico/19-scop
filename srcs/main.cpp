@@ -1,4 +1,5 @@
 #include "../include/scop.h"
+#include "../include/Shape.h"
 
 void rotate_shape(std::vector<float> &vertices, std::array<std::array<float, 3>, 3> matrix)
 {

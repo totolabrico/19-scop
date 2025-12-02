@@ -1,9 +1,7 @@
 #ifndef SHAPE_H
 #define SHAPE_H
 
-#include <string>
-#include <array>
-#include <vector>
+#include "../include/scop.h"
 
 class Shape
 {
@@ -19,6 +17,7 @@ private:
     std::string name;
     std::vector<std::array<float, 3>> vertices;
     std::vector<std::array<int, 3>> faces;
+    t_material material;
     void addElement(std::vector<std::string> &args);
     void addVertice(std::vector<std::string> const &args);
     void addFace(std::vector<std::string> const &args);

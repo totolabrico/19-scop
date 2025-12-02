@@ -1,6 +1,6 @@
 #include "../include/Shape.h"
-#include "iostream"
-#include "fstream"
+#include <iostream>
+#include <fstream>
 
 Shape::Shape() : name("empty") {}
 
@@ -14,6 +14,8 @@ void Shape::addElement(std::vector<std::string> &args)
         addVertice(args);
     else if (arg == "f")
         addFace(args);
+    else if (arg == "mtllib" && args.size() == 1)
+        load_material(material, args[0]);
 }
 
 void Shape::addVertice(std::vector<std::string> const &args)
@@ -109,7 +111,8 @@ Shape::Shape(std::string const &src_path)
     center();
     std::cout << "New Shape created with "
               << vertices.size() << " vertices and "
-              << faces.size() << " faces."
+              << faces.size() << " faces." << std::endl
+              << "Material name is " << material.name << "."
               << std::endl;
 }
 
