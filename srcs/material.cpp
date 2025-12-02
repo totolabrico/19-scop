@@ -27,7 +27,7 @@ static void load_material_element(t_material &material, std::vector<std::string>
             return;
         std::array<float, 3> value;
         for (int i = 1; i < 4; i++)
-            value[i - 1] = std::stof(args[1]);
+            value[i - 1] = std::stof(args[i]);
         if (cmd == "Ns")
             material.Ka = value;
         if (cmd == "Ni")
