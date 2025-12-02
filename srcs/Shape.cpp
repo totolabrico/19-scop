@@ -46,6 +46,43 @@ void Shape::addFace(std::vector<std::string> const &args)
     faces.push_back(face);
 }
 
+void Shape::center()
+{
+    std::array<float, 3> min;
+    std::array<float, 3> max;
+    std::array<float, 3> translation;
+
+    min = vertices[0];
+    max = vertices[0];
+    for (size_t i = 1; i < vertices.size(); i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            float value = vertices[i][j];
+            if (value < min[j])
+                min[j] = value;
+            if (value > max[j])
+                max[j] = value;
+        }
+    }
+    for (int i = 0; i < 3; i++)
+    {
+        if (min[i] > 0)
+            translation[i] = max[i] - min[i];
+        else
+            translation[i] = max[i] + min[i];
+        translation[i] /= 2;
+    }
+
+    for (size_t i = 0; i < vertices.size(); i++)
+    {
+        for (int j = 0; j < 3; j++)
+        {
+            vertices[i][j] -= translation[j];
+        }
+    }
+}
+
 Shape::Shape(std::string const &src_path)
 {
     std::fstream stream;
@@ -69,6 +106,7 @@ Shape::Shape(std::string const &src_path)
         else
             word += c;
     }
+    center();
     std::cout << "New Shape created with "
               << vertices.size() << " vertices and "
               << faces.size() << " faces."
@@ -86,12 +124,18 @@ std::string const &Shape::getName() const
     return name;
 }
 
-std::vector<std::array<float, 3>> const &Shape::getVertices() const
+void Shape::getVertices(std::vector<float> &dest) const
 {
-    return vertices;
-}
-
-std::vector<std::array<int, 3>> const &Shape::getFaces() const
-{
-    return faces;
+    for (const auto &face : faces)
+    {
+        for (int vi = 0; vi < 3; vi++)
+        {
+            const auto &v = vertices.at(face[vi] - 1);
+            for (int c = 0; c < 3; c++)
+            {
+                float value = v[c];
+                dest.push_back(value);
+            }
+        }
+    }
 }

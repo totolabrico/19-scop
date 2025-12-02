@@ -13,8 +13,7 @@ public:
     ~Shape();
     Shape &operator=(Shape const &src);
     std::string const &getName() const;
-    std::vector<std::array<float, 3>> const &getVertices() const;
-    std::vector<std::array<int, 3>> const &getFaces() const;
+    void getVertices(std::vector<float> &dest) const;
 
 private:
     std::string name;
@@ -23,6 +22,7 @@ private:
     void addElement(std::vector<std::string> &args);
     void addVertice(std::vector<std::string> const &args);
     void addFace(std::vector<std::string> const &args);
+    void center();
 };
 
 #endif
